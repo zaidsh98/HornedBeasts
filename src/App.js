@@ -7,6 +7,7 @@ import SelectedBeast from './components/SelectedBeast';
 
 
 class App extends React.Component{
+
   constructor(props){
     super(props);
     this.state = {
@@ -17,6 +18,14 @@ class App extends React.Component{
     };
   }
 
+ filterData = (event)=>{
+    if(this.state.numberOfHorns !== 'All'){
+      this.setState({data : Data.filter(item => item.horns === Number(this.state.numberOfHorns))});
+    }else{
+      this.setState({data : Data});
+    }
+  }
+  update = horns => this.setState({numberOfHorns : horns.target.value});
 
   handler = (title, imageUrl, description, modalState) => {
       this.setState({
@@ -45,7 +54,11 @@ class App extends React.Component{
           hideModal={this.handelModalShow}
 
         />
-        <Header />
+        <Header 
+          filterData={this.filterData}
+          numberOfHorns={this.state.numberOfHorns}
+          update={this.update}
+        />
         <Main 
           beastList={Data}
           handler={this.handler}/>
